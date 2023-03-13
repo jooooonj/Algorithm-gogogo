@@ -14,6 +14,7 @@ public class Baekjoon2293 {
     static int[] dp;
     static int[] arr;
     public static void main(String[] args) throws IOException{
+
         BufferedReader br = new BufferedReader(
                 new InputStreamReader(System.in));
         StringTokenizer st;
