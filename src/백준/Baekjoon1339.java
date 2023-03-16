@@ -4,11 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.*;
 
-/**
- * https://www.acmicpc.net/problem/1339
- * 백준 1339
- * 문제풀이 : 그리디
- */
+
 public class Baekjoon1339 {
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
