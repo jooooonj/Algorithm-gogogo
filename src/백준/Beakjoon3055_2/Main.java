@@ -132,12 +132,4 @@ public class Main {
         }
     }
 
-//    private static void print() {
-//        for(int i=0; i<R; i++) {
-//            for (int j = 0; j < C; j++) {
-//                System.out.print(map[i][j] + " ");
-//            }
-//            System.out.println();
-//        }
-//    }
 }
