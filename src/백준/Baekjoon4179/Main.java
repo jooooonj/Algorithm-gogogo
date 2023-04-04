@@ -17,7 +17,7 @@ public class Main {
     static boolean[][] visited2;
     static Queue<Point> jjj = new LinkedList();
     static Queue<Point> fire = new LinkedList();
-
+    static int[][] arr;
     static class Point {
         int r;
         int c;
@@ -33,39 +33,54 @@ public class Main {
     static int bfs() {
 
         while (!jjj.isEmpty() || !fire.isEmpty()) {
-            Point jh = jjj.poll();
 
+            while(!fire.isEmpty()) {
 
-            Point fi = fire.poll();
+                Point f = fire.poll();
+                for (int i = 0; i < 4; i++) {
+                    int nr = f.r + dr[i];
+                    int nc = f.c + dc[i];
 
-            //불부터 시작
-            for (int i = 0; i < 4; i++) {
-                int nr = fi.r + dr[i];
-                int nc = fi.c + dc[i];
-                if (nr < 0 || nc < 0 || nr >= R || nc >= C) continue;
-                if (visited2[nr][nc]) continue;
-                if (map[nr][nc] == '#') continue;
-                visited2[nr][nc] = true;
-                map[nr][nc] = 'F';
-                fire.add(new Point(nr, nc, 0));
+                    if (nr < 0 || nc < 0 || nr >= R || nc >= C) continue;
+                    if (map[nr][nc] != '#') {
+                        if (!visited2[nr][nc]) {
+                            visited2[nr][nc] = true;
+                            arr[nr][nc] = f.count + 1;
+                            fire.add(new Point(nr, nc, f.count + 1));
+                        }
+                    }
+                }
             }
 
+            while(!jjj.isEmpty()) {
 
-            for (int i = 0; i < 4; i++) {
-                int nr = jh.r + dr[i];
-                int nc = jh.c + dc[i];
-                if (nr < 0 || nc < 0 || nr >= R || nc >= C) {
+                Point jh = jjj.poll();
+                if (jh.r == 0 || jh.r == R - 1 || jh.c == 0 || jh.c == C - 1) {
                     return jh.count;
                 }
-                if (visited1[nr][nc]) continue;
-                if (map[nr][nc] == '#') continue;
-                if (map[nr][nc] == 'F') continue;
-                visited1[nr][nc] = true;
-                jjj.add(new Point(nr, nc, jh.count + 1));
+
+                for (int i = 0; i < 4; i++) {
+                    int nr = jh.r + dr[i];
+                    int nc = jh.c + dc[i];
+
+                    if (nr < 0 || nc < 0 || nr >= R || nc >= C) continue;
+                    if (map[nr][nc] == '.') {
+                        if (!visited1[nr][nc]) {
+                            if(arr[nr][nc] > jh.count + 1 || arr[nr][nc] == 0){
+                                visited1[nr][nc] = true;
+                                map[nr][nc] = 'J';
+                                jjj.add(new Point(nr, nc, jh.count + 1));
+
+                            }
+                        }
+                    }
+
+                }
             }
         }
-        return -1;
-    }
+
+        return-1;
+}
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -79,6 +94,7 @@ public class Main {
         map = new char[R][C];
         visited1 = new boolean[R][C];
         visited2 = new boolean[R][C];
+        arr = new int[R][C];
 
         for (int i = 0; i < R; i++) {
             String str = br.readLine();
@@ -90,16 +106,27 @@ public class Main {
                 }
                 if (map[i][j] == 'F') {
                     fire.add(new Point(i, j, 1));
+                    arr[i][j] = 1;
                     visited2[i][j] = true;
                 }
             }
         }
 
+
         int result = bfs();
-        if (result > -1)
-            System.out.println(result);
-        else {
+        if (result == -1)
             System.out.println("IMPOSSIBLE");
+        else
+            System.out.println(result);
+
+    }
+
+    private static void print() {
+        for (int i = 0; i < R; i++) {
+            for (int j = 0; j < C; j++) {
+                System.out.print(map[i][j] + " ");
+            }
+            System.out.println();
         }
     }
 }
