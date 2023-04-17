@@ -27,8 +27,5 @@ public class Main {
 
             System.out.println((a*b) / gdc(a, b));
         }
-        System.out.println(sb);
-
-
     }
 }
